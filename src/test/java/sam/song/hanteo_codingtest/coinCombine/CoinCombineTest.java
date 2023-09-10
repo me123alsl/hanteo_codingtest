@@ -4,6 +4,8 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.util.Arrays;
+
 
 public class CoinCombineTest {
 
@@ -25,20 +27,20 @@ public class CoinCombineTest {
 
 
     public int coinCombine(int sum, int[] coins){
-        int[] coinCount = new int[sum + 1];
-        coinCount[0] = 1;
+        int[] kindOfSum = new int[sum + 1];
+        kindOfSum[0] = 1;
 
 
         for(int i = 0; i < coins.length; i++){
             for(int j = coins[i]; j <= sum; j++){
-//                System.out.printf("coins[i]=%d, j=%d cointCount=[",coins[i], j);
-//                Arrays.stream(coinCount).forEach(c -> System.out.printf("%d ",c));
+                System.out.printf("coins[i]=%d, j=%d kindOfSum=[",coins[i], j);
+                Arrays.stream(kindOfSum).forEach(c -> System.out.printf("%d ",c));
                 System.out.println("]");
-                coinCount[j] += coinCount[j - coins[i]];
+                kindOfSum[j] += kindOfSum[j - coins[i]];
             }
         }
 
 
-        return coinCount[sum];
+        return kindOfSum[sum];
     }
 }

@@ -1,11 +1,7 @@
 package sam.song.hanteo_codingtest.struct;
 
-import org.springframework.context.annotation.Bean;
-import org.springframework.stereotype.Component;
-
-
 public class CategoryIdManager {
-    private Long nextIdx = 1L;
+    private Long nextIdx = 0L;
 
     public Long getNextIdx() {
         return nextIdx++;

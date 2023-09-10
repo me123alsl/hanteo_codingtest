@@ -1,26 +1,81 @@
+# 한터 글로벌 코딩과제
+
+---
 
 ## 1번 문제
 
-### 문제
-* 게시판 기능을 개발하던중 추가 요구사항이 발생하였습니다. 이 요구사항을 해결하기 위한 자료구조를 구현하여 제출 바랍니다.
-* 구현 언어는 Java 입니다.
-* 테스트는 자유롭게 하시기 바랍니다.
+----------------
 
-### 요구사항 
-게시판은 여러 게시글을 포함하는 객체이자 데이터 이다.  
-이 게시판이 여러 형태로 카테고리 구분이 되었으면 한다.  
-카테고리 구분의 예시는 다음과 같다.
+### 1.1. 문제 설명
 
-[//]: # (https://drive.google.com/file/d/1yLXVttdX3OnBb0mPoL5J5VNVt2wPXXVm/view?usp=sharing)
+| 카테고리 | 카테고리 | 카테고리  | 게시판 번호 |
+|:----:|:----:|:-----:|:------:|
+|  남자  |  엑소  | `공지사항`  |   `1`    |
+| | |   첸   |   2    |
+| | |  백현   |   3    |
+| | |  시우민  |   4    |
+| | 방탄소년단 | `공지사항`  |   `5`    |
+| | | `익명게시판` |  `6`   |
+| | |   뷔   |   7    |
+| 여자 | 블랙핑크 | `공지사항`  |   `8`    |
+| | | `익명게시판` |   `6`    |
+| | |  로제   |   9    |
 
-공지사항은 이름은 같지만 각각 다른 게시판이며  
-익명 게시판은 모두 같은 게시판이 각각 다른 카테고리에 소속되어 있다.  
+### 1.2. 문제 해결 방법
 
-카테고리들간의 관계 데이터를 parent_idx, child_id 2개의 값으로만 저장 해야 하며 저장된 값을 임의의 자료구조를 통해 구조화 시켜서 위와 같은 관계 데이터를 얻을 수 있어야 한다.  
+* 카테고리 분류를 정의 한다. (번호 부여시 `ANONYMOUS` 여부에 따른 부여)
+  * `CATEGORY` - 분류
+  * `BOARD` - 게시판 
+  * `ANONYMOUS` - 익명게시판 
+  * `NOTICE` - 공지사항
 
-자료구조는 다음과 같은 기능이 필수로 지원 되야 한다.  
+* 카테고리 분류에 따라 게시판 번호를 정의 한다.
+  * ANNOYMOUS 가 생성될 경우, ANONYMOUS 게시판 번호 고정
 
-1. 카테고리 식별자 및 카테고리명으로 검색이 되어야하며, 검색된 결과 값은 해당 카테고리의 하위 카테고리를 모두 담고 있어야 한다.  
-2. 자료구조는 Json text 로 응답 될 수 있어야 한다. (Json 구조로 변환이 가능해야 한다)  
+* 결과 리턴
+  * 기본 findBy[Id/Name] 사용시, ArrayList로 반환
+  * Json 형태로 반환하는 함수 구현
 
-* 핵심은 요구사항을 만족하는 자료구조의 구현입니다.  
+### 1.3 클래스 설명
+
+|       클래스명       |      설명      |
+|:----------------:|:------------:|
+|    `Category`    | 카테고리 분류를 정의  |
+| `BoardIdManager` | 게시판 번호 관리 객체 |
+| `CategoryIdManager` | 카테고리 번호 관리 객체 |
+| `CategoryManager` | 카테고리 관리 객체 |
+
+### 1.4. 실행 결과
+
+* ID 검색 결과 ("1" 입력)
+```jsonp
+[{"categoryId":1,"categoryName":"남자","categoryType":"CATEGORY","boardId":null,"parentId":0},{"categoryId":3,"categoryName":"엑소","categoryType":"CATEGORY","boardId":null,"parentId":1},{"categoryId":4,"categoryName":"방탄소년단","categoryType":"CATEGORY","boardId":null,"parentId":1},{"categoryId":6,"categoryName":"공지사항","categoryType":"NOTICE","boardId":1,"parentId":3},{"categoryId":7,"categoryName":"첸","categoryType":"BOARD","boardId":2,"parentId":3},{"categoryId":8,"categoryName":"백현","categoryType":"BOARD","boardId":3,"parentId":3},{"categoryId":9,"categoryName":"시우민","categoryType":"BOARD","boardId":4,"parentId":3},{"categoryId":10,"categoryName":"공지사항","categoryType":"NOTICE","boardId":5,"parentId":4},{"categoryId":11,"categoryName":"익명게시판","categoryType":"ANONYMOUS","boardId":6,"parentId":4},{"categoryId":12,"categoryName":"뷔","categoryType":"BOARD","boardId":7,"parentId":4}]
+```
+
+---
+
+## 2번 문제
+----------------
+### 2.1. 문제 설명
+각 각 다른 종류의 통화를 나타내는 N 크기의 coin[ ],  
+조합으로 만들어야 할 값 sum 일 때,  
+coin[]의 다양한 조합을 사용하여 합계를 만드는 방법의 수
+
+### 2.2 풀이 과정
+
+`동적 계획법`을 통한 목표 별 방법 수 구하기
+
+1. sum 만큼의 배열을 생성한다. `kindOfSum` (0 ~ sum)
+2. coin[]의 값을 하나씩 더해가며, 해당 값의 배열에 방법 수를 더한다.
+3. kindOfSum의 sum번째 값이 sum을 만드는 방법의 수가 된다.
+``` text
+coins[i]=1, j=1 kindOfSum=[1 0 0 0 0 ]
+coins[i]=1, j=2 kindOfSum=[1 1 0 0 0 ]
+coins[i]=1, j=3 kindOfSum=[1 1 1 0 0 ]
+coins[i]=1, j=4 kindOfSum=[1 1 1 1 0 ]
+coins[i]=2, j=2 kindOfSum=[1 1 1 1 1 ]
+coins[i]=2, j=3 kindOfSum=[1 1 2 1 1 ]
+coins[i]=2, j=4 kindOfSum=[1 1 2 2 1 ]
+coins[i]=3, j=3 kindOfSum=[1 1 2 2 3 ]
+coins[i]=3, j=4 kindOfSum=[1 1 2 3 3 ] 
+```
