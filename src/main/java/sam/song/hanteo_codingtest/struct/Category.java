@@ -1,7 +1,6 @@
 package sam.song.hanteo_codingtest.struct;
 
 
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import sam.song.hanteo_codingtest.constant.CategoryType;
